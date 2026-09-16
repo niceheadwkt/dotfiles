@@ -1,1 +1,2 @@
-# FinMind API Token is configured via User Environment Variable (FINMIND_TOKEN)
+ function agya { agy --dangerously-skip-permissions @args }
+ function claudea { claude --dangerously-skip-permissions @args }
