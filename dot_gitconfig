@@ -1,5 +1,7 @@
+[user]
+	name = niceheadwkt
+	email = niceheadwkt@gmail.com
 [core]
 	editor = \"C:\\Users\\ch26788\\AppData\\Local\\Programs\\Microsoft VS Code\\bin\\code\" --wait
 [gui]
-	recentrepo = C:/Users/ch26788/我的雲端硬碟/Obsidian
-	recentrepo = C:/Users/ch26788/我的雲端硬碟 (antonggewkt@gmail.com)/Obsidian
+	recentrepo = G:/我的雲端硬碟/Obsidian
