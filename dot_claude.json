@@ -36,7 +36,7 @@
     "permissions": 11,
     "rename-conversation": 11
   },
-  "promptQueueUseCount": 23,
+  "promptQueueUseCount": 26,
   "cachedGrowthBookFeatures": {
     "tengu_quiet_heron": true,
     "tengu_composed_quail": true,
@@ -2025,7 +2025,7 @@
     }
   },
   "feedbackSurveyState": {
-    "lastShownTime": 1789973297725
+    "lastShownTime": 1790642839683
   },
   "pluginUsage": {
     "agents-md@builtin": {
@@ -2042,5 +2042,10 @@
   "announcementImpressions": {
     "opus-5-5-update": 2,
     "opus-5-5-default": 2
+  },
+  "claudeCodeHints": {
+    "plugin": [
+      "vercel@claude-plugins-official"
+    ]
   }
 }
