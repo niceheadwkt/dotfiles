@@ -1,2 +1,2 @@
- function agya { agy --dangerously-skip-permissions @args }
- function claudea { claude --dangerously-skip-permissions @args }
+﻿# AI CLI 專屬色彩配置（claude、claudea、codex、opencode、agy、agya 皆定義於此）
+. "$env:USERPROFILE\Documents\PowerShell\ai-cli-colors.ps1"
