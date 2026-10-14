@@ -1,6 +1,7 @@
 {{- /* chezmoi:modify-template */ -}}
-{{- /* 只合併 statusLine，其餘設定保留各電腦原值 */ -}}
+{{- /* 只合併 statusLine、theme，其餘設定保留各電腦原值 */ -}}
 {{- $s := dict -}}
 {{- if .chezmoi.stdin -}}{{- $s = fromJson .chezmoi.stdin -}}{{- end -}}
 {{- $s = setValueAtPath "statusLine" (dict "type" "command" "command" "bash ~/.claude/statusline-command.sh") $s -}}
+{{- $s = setValueAtPath "theme" "custom:solarized-light" $s -}}
 {{- toPrettyJson "  " $s }}
