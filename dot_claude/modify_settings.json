@@ -2,6 +2,7 @@
 {{- /* 只合併 statusLine、theme，其餘設定保留各電腦原值 */ -}}
 {{- $s := dict -}}
 {{- if .chezmoi.stdin -}}{{- $s = fromJson .chezmoi.stdin -}}{{- end -}}
-{{- $s = setValueAtPath "statusLine" (dict "type" "command" "command" "bash ~/.claude/statusline-command.sh") $s -}}
+{{- $home := .chezmoi.homeDir | replace "\\" "/" -}}
+{{- $s = setValueAtPath "statusLine" (dict "type" "command" "command" (printf "%s/AppData/Local/Python/bin/python -X utf8 %s/.claude/statusline.py" $home $home)) $s -}}
 {{- $s = setValueAtPath "theme" "custom:solarized-light" $s -}}
 {{- toPrettyJson "  " $s }}
