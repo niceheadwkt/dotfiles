@@ -3,6 +3,11 @@
 {{- $s := dict -}}
 {{- if .chezmoi.stdin -}}{{- $s = fromJson .chezmoi.stdin -}}{{- end -}}
 {{- $home := .chezmoi.homeDir | replace "\\" "/" -}}
-{{- $s = setValueAtPath "statusLine" (dict "type" "command" "command" (printf "%s/AppData/Local/Python/bin/python -X utf8 %s/.claude/statusline.py" $home $home)) $s -}}
+{{- /* Python 路徑依電腦而異：取第一個存在的候選，都沒有就用 PATH 上的 python */ -}}
+{{- $py := "python" -}}
+{{- range (list (printf "%s/AppData/Local/Python/bin/python.exe" $home) (printf "%s/AppData/Local/Programs/Python/Python313/python.exe" $home) (printf "%s/AppData/Local/Programs/Python/Python312/python.exe" $home)) -}}
+{{- if and (eq $py "python") (stat .) -}}{{- $py = . -}}{{- end -}}
+{{- end -}}
+{{- $s = setValueAtPath "statusLine" (dict "type" "command" "command" (printf "%s -X utf8 %s/.claude/statusline.py" $py $home)) $s -}}
 {{- $s = setValueAtPath "theme" "custom:solarized-light" $s -}}
 {{- toPrettyJson "  " $s }}

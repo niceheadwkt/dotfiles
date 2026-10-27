@@ -43,6 +43,20 @@ def reset_time(v, fmt):
         return ""
 
 
+def quota(data):
+    # AGY：quota 可能是 {used_percentage}、{桶名: {used_percentage}} 或 [{used_percentage}]
+    q = data.get("quota")
+    if isinstance(q, dict):
+        if "used_percentage" in q:
+            return pct(q.get("used_percentage"))
+        for v in q.values():
+            if isinstance(v, dict) and "used_percentage" in v:
+                return pct(v.get("used_percentage"))
+    elif isinstance(q, list) and q and isinstance(q[0], dict):
+        return pct(q[0].get("used_percentage"))
+    return None
+
+
 def account():
     try:
         import os
@@ -63,7 +77,13 @@ def main():
     except Exception:
         data = {}
 
-    model = get(data, "model", "display_name") or get(data, "model", "id") or "未知模型"
+    model = get(data, "model", "display_name") or get(data, "model", "id")
+    if not model and isinstance(data.get("model"), str):
+        model = data["model"]
+    model = str(model or "未知模型")
+    tier = data.get("plan_tier") or data.get("plan") or data.get("tier")
+    if tier and not isinstance(tier, (dict, list)):
+        model += " [" + str(tier) + "]"
 
     cwd = get(data, "workspace", "current_dir") or data.get("cwd") or ""
     cwd = str(cwd).replace("\\", "/").rstrip("/")
@@ -71,7 +91,7 @@ def main():
     if not folder:
         folder = cwd or "-"
 
-    parts = [str(model), folder]
+    parts = [model, folder]
 
     ctx = pct(get(data, "context_window", "used_percentage"))
     parts.append("context " + (ctx if ctx is not None else "0") + "%")
@@ -84,6 +104,10 @@ def main():
     if week is not None:
         r = reset_time(get(data, "rate_limits", "seven_day", "resets_at"), "%m/%d %H:%M")
         parts.append("7d " + week + "%" + (" 重置 " + r if r else ""))
+
+    q = quota(data)
+    if q is not None:
+        parts.append("quota " + q + "%")
 
     parts.append("session " + str(data.get("session_name") or "-"))
     parts.append("agent " + str(get(data, "agent", "name") or "-"))
